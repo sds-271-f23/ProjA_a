@@ -5,19 +5,29 @@
 
 
 ## Import libraries
+
 ## STEP 1 --> create a class containing relevant variables and functions
+class DartboardSimulator:
     ## class attributes (length and radius because board is not changing)
 
     ## initialize the object, using default values for iterations (50) and throws (10)
-    
+    def __init__(self, length=2, radius=1, iterations=50, throws_per_iteration=10):
+        self.length = length
+        self.radius = radius
+        self.iterations = iterations
+        self.throws_per_iteration = throws_per_iteration
+        self.results_df = None
+        
     ## STEP 2 --> simulate dart throws
-    
     ## dartThrow takes no input, outputs two floats: 
         # x- and y-coordinates for where a random dart landed in a square 2x2 centered at (0,0)
     ## assumes the dart lands inside the square
 
         ## randomly generate an x- and y-coordinate between -1 and 1
-
+    def dart_throw(self):
+        x = np.random.uniform(-1, 1)
+        y = np.random.uniform(-1, 1)
+        return x, y
     
     ## STEP 3 --> determine if throws are inside the circle
     
