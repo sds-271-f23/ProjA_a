@@ -5,6 +5,8 @@
 
 
 ## Import libraries
+import numpy as np
+import pandas as pd
 
 ## STEP 1 --> create a class containing relevant variables and functions
 class DartboardSimulator:
@@ -33,9 +35,11 @@ class DartboardSimulator:
     
     ## inCircle takes x and y coordinate input, outputs boolean value for "in circle" 
         # determining if dart throw is in a circle (rad 1) centered at (0,0) in the square
-
+    def dart_check(self, x, y):
+        distance = x**2 + y**2
+        return distance <= 1
         ## using formula from: 
-
+        # R^2 = x^2 + y^2
     
     ## STEP 4 --> simulate a number of throws and save results
     
@@ -43,33 +47,30 @@ class DartboardSimulator:
         # keys are the number of throws. the value of the innermost dictionaries is a dictionary of info
         # about each throw, including the x and y coordinate, and whether it made it in the circle
     ## input is a number of iterations and a number of throws (default values from initializing)
-        
+    def simulation(self):
         ## create an empty dataframe to return at the end
-        
+        results_df = pd.DataFrame()
         ## loop through iterations based on iteration input
-
-            
+        for i in range(self.iterations):
             ## for each iteration, create a dictionary to be added to the results at the end
-
-            
+            iteration_result = {}
             ## within the iteration, "throw" the dart a certain number of times
-                
+            for throws in range(self.throws_per_iteration):    
                 ## within each throw: 
-                
                 ## "throw" the dart and record if it made it in the circle
-                
+                x, y = self.dart_throw()                
                 ## add to countervariable if dart "inside" circle
-
+                inside = self.dart_check(x, y)
                 ## store the dart inforamtion in a dictionary (x and y coords, and if it made it in)
-                
+                throw_result = {"coordinate": [x, y], "inside": inside}
                 ## add the "throw" dictionary to iteration dictionary, key = throw number
-
+                iteration_result.update({throws: throw_result})
             ## after all throws, append the iteration dictionary to results dataframe
-
-        
+            results_df = results_df.append(iteration_result, ignore_index=True)
+            self.results_df = results_df
         ## after all iterations are over, return the results
-    
-    
+        return results_df
+   
     ## STEP 5 --> math )): estimate pi (like a loser who doesn't know 3.14...) using circle and side lengths
         
         ## go through each iteration of the dataframe
