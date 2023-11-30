@@ -70,27 +70,29 @@ class DartboardSimulator:
             self.results_df = results_df
         ## after all iterations are over, return the results
         return results_df
-   
+    
     ## STEP 5 --> math )): estimate pi (like a loser who doesn't know 3.14...) using circle and side lengths
-        
+    def estimate_pi(self): 
+        pi_values = []
+        errors = []
         ## go through each iteration of the dataframe
-
-            
+        for i in range(len(self.results_df)):
             ## count the number of throws
-   
-            
+            throws = len(self.results_df.iloc[i])
             ## count the number of times the throw 'landed on the board"
-            
+            ins = sum(result['inside'] for result in self.results_df.iloc[i].values)
             
             ## pi value = ins/throws * 4
-            
-            
+            pi = (ins / throws) * 4
+
             ## calculate error (distance of pi from actual pi value)
-            
-            
+            error = abs(pi - np.pi)
+
             ## append the individual pi and error values to their lists
+            pi_values.append(pi)
+            errors.append(error)
 
-
+        return pi_values, errors
             
     ## STEP 7 --> calculates the standard error of the pi estimates and returns them
 
