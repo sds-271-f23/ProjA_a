@@ -8,6 +8,7 @@
 import numpy as np
 import pandas as pd
 
+
 ## STEP 1 --> create a class containing relevant variables and functions
 class DartboardSimulator:
     ## class attributes (length and radius because board is not changing)
@@ -84,7 +85,7 @@ class DartboardSimulator:
             
             ## pi value = ins/throws * 4
             pi = (ins / throws) * 4
-
+      
             ## calculate error (distance of pi from actual pi value)
             error = abs(pi - np.pi)
 
@@ -94,41 +95,52 @@ class DartboardSimulator:
 
         return pi_values, errors
 
-            
     ## STEP 7 --> calculates the standard error of the pi estimates and returns them
-
-        
-
+    def calculate_standard_error(self):
+        pi_values, errors = self.estimate_pi()
+        mean_pi = np.mean(pi_values)
+        standard_error = np.std(pi_values) / np.sqrt(len(pi_values))
+        return standard_error
     
     ## STEP 6 --> create a visualization of a dartboard after all the throws have landed
+    def visualize_dartboard(self):
+        '''
+        ## creates a single dartboard using one simulation as input
     
-    ## creates a single dartboard using one simulation as input
-
         
         ## plot a matplotlib figure
-
+        fig, ax = plt.subplots()
         
         ## set the x and y range of the coordinate plane using .set()
-
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(-1, 1)
         
         ## move the axes so they are centered using .spines().[location].set_position()
-
+        ax.spines['left'].set_position('zero')
+        ax.spines['bottom'].set_position('zero')
 
         
         ## remove the top and right lines for visualz
-
-
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
         
         ## add the circle to the middle of the plane
-
-
+        circle = plt.Circle((0, 0), radius=1, edgecolor='r', facecolor='none')
+        ax.add_artist(circle)
         
         ## remove ins from iteration using try to only run it once  
-
-        
-
-        
-        
+        ## loop through the iteration
+        for i in range(len(self.results_df)):
+            row = self.results_df.iloc[i]
+            for throw_data in row:
+                ## access the x and y value for each throw
+                x, y = throw_data['coordinate']
+                color = 'blue' if throw_data['inside'] else 'red'
+                ## plot each point using .scatter()
+                ax.scatter(x, y, color=color, marker='x', s=2)
+        plt.show()
+        '''       
+      
         ## loop through the iteration
 
             
@@ -147,6 +159,25 @@ class DartboardSimulator:
 
             
             ## access each simulation and provide it as input to visualization
+        
+        for i in range(len(self.results_df)):
+            fig, ax = plt.subplots()
+            ax.set_xlim(-1, 1)
+            ax.set_ylim(-1, 1)
+            ax.spines['left'].set_position('zero')
+            ax.spines['bottom'].set_position('zero')
+            ax.spines['right'].set_color('none')
+            ax.spines['top'].set_color('none')
+            circle = plt.Circle((0, 0), radius=1, edgecolor='r', facecolor='none')
+            ax.add_artist(circle)
+ 
+            row = self.results_df.iloc[i]
+            for throw_data in row:
+                x, y = throw_data['coordinate']
+                color = 'blue' if throw_data['inside'] else 'red'
+                ax.scatter(x, y, color=color, marker='x', s=2)
+        
+        plt.show()
 
     
 
